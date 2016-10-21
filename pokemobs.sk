@@ -899,5 +899,11 @@ every 1 second:
 		send "Your match is %{_player2}%" to {_player1}  
 		teleport {_player1} to {pokeloc.match1}
 		teleport {_player2} to {pokeloc.match2}
-				
-
+		format slot 1 of {_player1} with diamond sword named "&cKämpfen" to be unstealable
+		format slot 1 of {_player2} with diamond sword named "&cKämpfen" to be unstealable
+		wait 2 ticks
+		format slot 2 of {_player1} with chest named "&1Beutel" to be unstealable
+		format slot 2 of {_player2} with chest named "&1Beutel" to be unstealable
+		wait 2 ticks
+		format slot 3 of {_player1} with slimeball named "&2PKMN" to be unstealable
+		format slot 3 of {_player2} with slimeball named "&2PKMN" to be unstealable
