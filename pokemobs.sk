@@ -1,4 +1,4 @@
-# PokeMobs #
+ PokeMobs #
 
 #AKTUALISIERTER CODE#
 
@@ -893,6 +893,8 @@ every 1 second:
 		remove "%{_player2}%" from {matchmakings::*}  
 		delete {matchmaking::%{_player1}%}
 		delete {matchmaking::%{_player2}%}   
+		set {_player1} to "%{_player1}%" parsed as player
+		set {_player2} to "%{_player2}%" parsed as player
 		send "Your match is %{_player1}%" to {_player2}
 		send "Your match is %{_player2}%" to {_player1}  
 		teleport {_player1} to {pokeloc.match1}
