@@ -1,0 +1,901 @@
+# PokeMobs #
+
+#AKTUALISIERTER CODE#
+
+
+     #das hier bitte /mehead pig fangen und mit egg klicken kurz afk                           
+command /megive:
+        trigger:
+                give player gold boots named "&1Flucht"
+
+
+command /mehead:
+        trigger:
+                spawn a pig at player
+                set display name of last spawned entity to "&dPig || &7Level &f1"
+                give player a egg named "&2PKMN"
+                send "Run"
+
+
+
+command /hatup:
+        trigger:
+                set helmet of targeted entity to player's held item
+
+command /invisible:
+        trigger:
+                apply invisibility to targeted entity for 9999 days
+
+command /pokeloc <text=gsss>:
+        trigger:
+                if arg 1 is "gsss":
+                        send "{pokeloc.found1-30} , {pokeloc.fspawn1-30}"
+                else:
+                        set {pokeloc.%arg-1%} to location of player
+                        send "%arg-1% &aset"
+
+command /addloc <text>:
+        trigger:
+                set {pokeloc.%arg-1%} to location of targeted block
+                send "%arg-1% &aadded"
+
+command /setloct <text>:
+        trigger:
+                set {%arg-1%.%location of targeted block%} to true
+                send "%arg-1% &aset trues"
+
+                
+on walk on black wool:
+        wait a tick
+        if player's world is "Pokemobs":
+                if "%location of event-block%" is "%{pokeloc.tempel}%":
+                        wait a tick
+                        teleport the player to {pokeloc.tempeldown}
+                if "%location of event-block%" is "%{pokeloc.tempeldoor2}%" or "%{pokeloc.tempeldoor1}%":
+                        if {sandradefeat.%uuid of player%} is true:
+                                send ""
+                        else:
+                                send "&cDu hast den Arenaleiter &9Sandra &cnicht besiegt!"
+                                wait a tick
+                                teleport the player to {pokeloc.tempelstart}
+
+on walk on green wool:
+        wait a tick
+        if player's world is "Pokemobs":
+                if {tback.%location of event-block%} is true:
+                        wait a tick
+                        teleport the player to {pokeloc.treturn}
+                if {outprof.%location of event-block%} is true:
+                        if {talkprof.%uuid of player%} is set:
+                                send ""
+                        else:
+                                send "&cDu musst erst mit ""&cProfessor iamflee_"" &creden bevor du hier durch kannst!"
+                                teleport the player to {pokeloc.backprof}
+
+command /tutorial:
+        trigger:
+                teleport the player to {pokeloc.spawntut}
+                wait 2 second
+                delete {questa::%uuid of player%}
+                hide player from all players
+                hide all players from player
+                send "&cProf. iamflee_ &f: &7Hallo junger Trainer!"
+                wait 4 second
+                send "&cProf. iamflee_ &f: &7Willkommen in der Welt der PokeMobs!"
+                wait 4 second
+                send "&cProf. iamflee_ &f: &7Dies ist ein PokeMob."
+                spawn a pig at {pokeloc.tutpig}
+                set display name of last spawned pig to "&dPig &7|| &7Level &f2"
+                wait 4 second
+                send "&cProf. iamflee_ &f: &7Du kannst mit deinen PokeMob gegen andere PokeMobs kämpfen!"
+                wait 5 second
+                send "&cProf. iamflee_ &f: &7"
+                wait 4 second
+                send "&cProf. iamflee_ &f: &7 Nun bis später &6%player%"
+                wait 2 second
+                apply nausea 10 to player for 5 seconds
+                apply blindness 6 to player for 5 seconds
+                wait 3 second
+                kill last spawned pig
+                teleport the player to {pokeloc.tutspawn2}
+                reveal player to all players
+                reveal all players from player
+                wait 16 second
+                send "&f<-> &eNeue SMS vom &cProfessor iamflee_"
+                send "&eSMS | &cProf. iamflee_ &f: &7Bitte begebe dich in mein Labor!"
+                send "&eSMS | &cProf. iamflee_ &f: &7Ich habe ein spezielles Geschenk für dich!"
+                send "&f<-> &eSMS"
+                send "&7[&5Quest&7] &aBesuche &cProfessor iamflee_ &ains seinem Labor!"
+                set {questa::%uuid of player%} to "&aBesuche &cProfessor Elm &ains seinem Labor!"
+
+on right click on sign:
+        if line 1 of clicked block is "[Join]":
+                if line 2 of clicked block is "PokéMobs":
+                        set line 1 of clicked block to "&7[&8Join&7]"
+                        set line 2 of clicked block to "&cPoké&2Mobs"
+                        set {player.pokemobs} to 0
+                        set line 3 of clicked block to "&f%{player.pokemobs}% &aSpieler online!"
+                        set line 4 of clicked block to "&8--------"
+
+on right click on sign:
+        if line 1 of clicked block is "[Join]":
+                if line 2 of clicked block is "MineFortress2":
+                        set line 1 of clicked block to "&7[&8Join&7]"
+                        set line 2 of clicked block to "&cMine&6Fortress &f2"
+                        set {player.minefortress} to 0
+                        set line 3 of clicked block to "&f%{player.minefortress}% &aSpieler online!"
+                        set line 4 of clicked block to "&8--------"
+
+on right click on sign:
+        if line 1 of clicked block is "[Join]":
+                if line 2 of clicked block is "rpg":
+                        set line 1 of clicked block to "&7[&8Join&7]"
+                        set line 2 of clicked block to "&6Roleplay"
+                        set {player.rpg} to 0
+                        set line 3 of clicked block to "&f%{player.rpg}% &aSpieler online!"
+                        set line 4 of clicked block to "&8--------"
+
+
+every 4 second:
+        loop all players:
+                if {online.%uuid of loop-player%} is true:
+                        if loop-player's world is "world":
+                                wipe loop-player's sidebar
+                                set name of sidebar of loop-player to "&9Demetria &6Servernetzwerk"
+                                set score " " in sidebar of loop-player to 9
+                                set score "&cWillkommen," in sidebar of loop-player to 8
+                                set score "%{prefix.%uuid of loop-player%}%%loop-player%" in sidebar of loop-player to 7
+                                set score "  " in sidebar of loop-player to 6
+                                set score "&6Doins:" in sidebar of loop-player to 5
+                                if {doins.%uuid of loop-player%} is not set:
+                                        set {doins.%uuid of loop-player%} to 0
+                                set score "&7%{doins.%uuid of loop-player%}%" in sidebar of loop-player to 4
+                                set score "   " in sidebar of loop-player to 3
+                                set score "&2Spieler online:" in sidebar of loop-player to 2
+                                set score "&7%number of all players%" in sidebar of loop-player to 1
+                                wait 20 ticks
+                                set name of sidebar of loop-player to "&6Roleplay"
+                                wait 20 ticks
+                                set name of sidebar of loop-player to "&cPoke&bMobs"
+                                wait 20 ticks
+                                set name of sidebar of loop-player to "&6Smash"
+                                wait 20 ticks
+                                set name of sidebar of loop-player to "&9Demetria &6Servernetzwerk"
+                        else:
+                                if loop-player's world is "PokeMobs":
+                                        wipe loop-player's sidebar
+                                        set name of sidebar of loop-player to "&cPoke&6Mobs"
+                                        set score " " in sidebar of loop-player to 9
+                                        set score "&cPoké&6dollar&7:" in sidebar of loop-player to 8
+                                        if {wallet.%uuid of loop-player%} is not set:
+                                                set {wallet.%uuid of loop-player%} to 0
+                                        set score "%{wallet.%uuid of loop-player%}%" in sidebar of loop-player to 7
+                                        set score "  " in sidebar of loop-player to 6
+                                        set score "&6Orden&7:" in sidebar of loop-player to 5
+                                        if {badges.%uuid of loop-player%} is not set:
+                                                set {badges.%uuid of loop-player%} to 0
+                                        set score "%{badges.%uuid of loop-player%}%" in sidebar of loop-player to 4
+                                        set score "   " in sidebar of loop-player to 3
+                                        set score "&cPoke&2dex&7:" in sidebar of loop-player to 2
+                                        if {foundpokemobs.%uuid of loop-player%} is not set:
+                                                set {foundpokemobs.%uuid of loop-player%} to 0
+                                        set score "&f%{foundpokemobs.%uuid of loop-player%}%&7/&f100" in sidebar of loop-player to 1
+                                        set score "    " in sidebar of loop-player to 0
+                                else:
+                                        erase loop-player's sidebar
+
+
+
+#on inventory click:
+        #if player's world is "hub":
+        #        if {nomoveitems.%uuid of player%} is not set:
+                #        clear player's inventory
+                        #set slot 4 of player to clock named "&6Spielmodis"
+                #        set slot 2 of player to light green dye named "&aSpieler aktiviert!"
+                #        set slot 6 of player to ender chest named "&5Schnick-Schnack"
+                #        set slot 8 of player to skull of player named "&bFreunde"
+                #        set slot 0 of player to gold sword named "&fCloud&6-Knockdown"
+                #        cancel event
+
+
+command /addsign <text>:
+        trigger:
+                if targeted block is a sign:
+                        if arg 1 is "poke":
+                                add targeted block to {signloctionpoke::*}
+                                send "&aadded poke"
+                        if arg 1 is "mine":
+                                add targeted block to {signloctionminef::*}
+                                send "&aadded minef"
+                        if arg 1 is "rpg":
+                                add targeted block to {signloctionpoke::*}
+                                send "&aadded epg"
+
+every 1 second:
+        loop {signloctionpoke::*}:
+                loop all players:
+                        set {player.pokemobs} to 0
+                        if loop-player's world is "PokeMobs":
+                                add 1 to {player.pokemobs}
+                set line 3 of loop-value to "&f%{player.pokemobs}% &aSpieler online!"
+
+every 1 second:
+        loop {signloctionminef::*}:
+                loop all players:
+                        set {player.minfortress} to 0
+                        if loop-player's world is "hubmine":
+                                add 1 to {player.minefortress}
+                set line 3 of loop-value to "&f%{player.minefortress}% &aSpieler online!"
+
+
+
+
+on walk on grass:
+        wait a tick
+        if player's world is "Pokemobs":
+                if block above event-block is tall grass:
+                        set {_countsec} to a random integer between 0 and 800
+                        if {_countsec} is between 0 and 60:
+                        #        set {_countsec2} to a random integer between 0 and 80
+                        #        if {_countsec2} is between 0 and 40:
+                                send "&aA wild PokeMob appeared..." to player
+                                apply nausea 5 to player for 2 seconds
+                                apply blindness 5 to player for 2 seconds
+                                apply slowness 99 to player for 2 seconds
+                                set {lastloc.%uuid of player%} to location of player
+                                wait 1 second
+                                set {_count} to 0
+                                loop 36 times:
+                                        set {inv.%uuid of player%.%{_count}%.poke} to slot {_count} of player's inventory
+                                        add 1 to {_count}
+                                set {inv.%uuid of player%.helmet.poke} to player's helmet
+                                set {inv.%uuid of player%.chest.poke} to player's chestplate
+                                set {inv.%uuid of player%.legs.poke} to player's leggings
+                                set {inv.%uuid of player%.feet.poke} to player's boots
+                                clear player's inventory
+                                wait 1 second
+                                set {_int} to a random integer between 1 and 30
+                                wait a tick
+                                teleport the player to {pokeloc.found%{_int}%}
+                                wait 1 second
+                                spawn a zombie at {pokeloc.spawn%{_int}%}
+                                apply slowness 99 to last spawned entity for 999 days
+                                set name of last spawned entity to "&1Zombie &7| &7Level &f2"
+                                send "fspawn%{_int}% || %{pokeloc.found%{_int}%}%"
+                                send "found%{_int}% || %{pokeloc.spawn%{_int}%}%"
+                                send "&aWhat do you want to do ?" to player
+                                wait 2 tick
+                                give player a diamond sword named "&cKämpfen"
+                                wait 2 tick
+                                give player a chest named "&bBeutel"
+                                wait 2 tick
+                                give player a slimeball named "&2PKMN"
+                                wait 2 tick
+                                give player a feather named "&1Flucht"
+                                        
+                        
+on right click with feather:
+        if name of player's held item is "&1Flucht":
+                teleport the player to {lastloc.%uuid of player%}
+                clear player's inventory
+                set {_count} to 0
+                loop 36 times:
+                        set slot {_count} of player's inventory to {inv.%uuid of player%.%{_count}%.poke}
+                        add 1 to {_count}
+                set the helmet of player to {inv.%uuid of player%.helmet.poke}
+                set the chestplate of player to {inv.%uuid of player%.chest.poke}
+                set the leggings of player to {inv.%uuid of player%.legs.poke}
+                set the boots of player to {inv.%uuid of player%.feet.poke}
+                send "&aDu bist entkommen"
+
+
+on damage:
+        if projectile is a egg:
+                if attacker is player:
+                        if victim is not a player:
+                                if name of attacker's tool is "&cPoke&fball":
+                                        if victim is a pig:
+                                                if {catched.%victim%} is not set:
+                                                        chance of 60%:
+                                                                send "&aYou catched &dPig" to attacker
+                                                                set {_displayname} to "%name of victim%"
+                                                                set {_splt::*} to split {_displayname} at "||"
+                                                                set {_name} to "%{_splt::1}%"
+                                                                replace all " " in {_name} with ""
+                                                                set {_rdlvl} to "%{_splt::2}%"
+                                                                replace all " " in {_rdlvl} with ""
+                                                                set {lvl.%{_name}%} to "1"
+                                                                set {exp.%{_name}%} to 0
+                                                                set {_lvlma} to "%{lvl.%{_name}%}%" parsed as integer
+                                                                set {expcap.%{_name}%} to "%{_lvlma} * 100%"
+                                                                give attacker 1 pink wool named "&dPig || &7Level &f%{lvl.%{_name}%}%" with lore "&7Exp: &f%{exp.%{_name}%}%&7/&f%{expcap.%{_name}%}%||&7HP: &a%health of victim%&7/&a%max health of victim%||&cFreilassen?"
+                                                                kill victim
+                                                                set {pkmnpig.%attacker%} to 1
+                                                else:
+                                                        cancel event
+                                        if victim is a chicken:
+                                                if {catched.%victim%} is not set:
+                                                        chance of 70%:
+                                                                send "&aYou catched &fChicken" to attacker
+                                                                kill victim
+                                                                give attacker 1 white wool named "&fChicken || &7Level &f1" with lore "&7HP: &a20&7/&a20||&cFreilassen?"
+                                                                set {pkmnchicken.%attacker%} to 1
+                                        if victim is a zombie:
+                                                if {catched.%victim%} is not set:
+                                                        chance of 50%:
+                                                                send "&aYou catched &2Zombie" to attacker
+                                                                kill victim
+                                                                give attacker 1 green wool named "&2Zombie || &7Level &f1" with lore "&7HP: &a20&7/&a20||&cFreilassen?"
+                                                                set {pkmnzombie.%attacker%} to 1
+
+
+
+on damage:
+        if {nodmg.%victim%} is true:
+                cancel event
+
+
+on right click with pink wool:
+        if name of player's tool is "&dPig || &7Level &f1":
+                set {_lore} to "%lore of player's tool%"
+                set {_named} to "%name of player's tool%"
+                replace all " " and "  " in {_named} with ""
+                set {_spilt::*} to split {_named} at "||"
+                set {_named} to "%{_spilt::1}%"
+                set {_splitlore::*} to split {_lore} at ","
+                set {_bony} to "%{_splitlore::3}%"
+                replace all "]" in {_bony} with ""
+                if "%{_bony}%" contains "Freilassen?":
+                        if {coolmob.%display name of last spawned entity%.%uuid of player%} is true:
+                                send "&cDu hast dieses PokeMob bereits freigelassen!"
+                        else:
+                                set {_location} to location of block above targeted block
+                                spawn a pig at {_location}
+                                set display name of last spawned entity to "&dPig || &7Level %{level.%{_named}%}%"
+                                send "&aDu hast &dPig &afreigelassen!" to player
+                                remove a pink wool named "&dPig || &7Level &f1" with lore "&7Exp: &f%{exp.%{_named}%}%&7/&f%{expcap.%{_named}%}%||&7HP: &a%health of last spawned entity%&7/&a%max health of last spawned entity%||&cFreilassen?" from player
+                                wait 2 tick
+                                give player a pink wool named "&dPig || &7Level &f1" with lore "&7Exp: &f%{exp.%{_named}%}%&7/&f%{expcap.%{_named}%}%||&7HP: &a%health of last spawned entity%&7/&a%max health of last spawned entity%||&aZurück?"
+                                set display name of last spawned entity to "&dPig || &7Level &f1"
+                                set {catched.%last spawned entity%} to true
+                                set {owner.%last spawned entity%} to "%uuid of player%"
+                                set {nodmg.%last spawned entity%} to true
+                                set {coolmob.%display name of last spawned entity%.%uuid of player%} to true
+
+on right click with white wool:
+        if name of player's tool is "&fChicken || &7Level &f1":
+                set {_lore} to "%lore of player's tool%"
+                set {_splitlore::*} to split {_lore} at ","
+                set {_bony} to "%{_splitlore::2}%"
+                replace all "]" in {_bony} with ""
+                if "%{_bony}%" contains "Freilassen?":
+                        if {coolmob.%display name of last spawned entity%.%uuid of player%} is true:
+                                send "&cDu hast dieses PokeMob bereits freigelassen!"
+                        else:
+                                set {_location} to location of block above targeted block
+                                spawn a chicken at {_location}
+                                send "&aDu hast &fChicken &afreigelassen!" to player
+                                remove a white wool named "&fChicken || &7Level &f1" with lore "&7HP: &a20&7/&a20||&cFreilassen?" from player
+                                wait 2 tick
+                                give player a white wool named "&fChicken || &7Level &f1" with lore "&7HP: &a20&7/&a20||&aZurück?"
+                                set display name of last spawned entity to "&fChicken || &7Level &f1"
+                                set {catched.%last spawned entity%} to true
+                                set {owner.%last spawned entity%} to "%uuid of player%"
+                                set {nodmg.%last spawned entity%} to true
+                                set {coolmob.%display name of last spawned entity%.%uuid of player%} to true
+
+command /wallet:
+        aliases: /guthaben
+        trigger:
+                if {wallet.%uuid of player%} is not set:
+                        set {wallet.%uuid of player%} to "0"
+                set action bar of player to "&6Pokedollor &7= &f%{wallet.%uuid of player%}% &6$"
+
+
+
+on right click with green wool:
+        if name of player's tool is "&2Zombie || &7Level &f1":
+                set {_lore} to "%lore of player's tool%"
+                set {_splitlore::*} to split {_lore} at ","
+                set {_bony} to "%{_splitlore::2}%"
+                replace all "]" in {_bony} with ""
+                if "%{_bony}%" contains "Freilassen?":
+                        if {coolmob.%display name of last spawned entity%.%uuid of player%} is true:
+                                send "&cDu hast dieses PokeMob bereits freigelassen!"
+                        else:
+                                set {_location} to location of block above targeted block
+                                spawn a zombie at {_location}
+                                send "&aDu hast &2Zombie &afreigelassen!" to player
+                                remove a green wool named "&2Zombie || &7Level &f1" with lore "&7HP: &a20&7/&a20||&cFreilassen?" from player
+                                wait 2 tick
+                                give player a green wool named "&2Zombie || &7Level &f1" with lore "&7HP: &a20&7/&a20||&aZurück?"
+                                set display name of last spawned entity to "&2Zombie || &7Level &f1"
+                                set {catched.%last spawned entity%} to true
+                                set {owner.%last spawned entity%} to "%uuid of player%"
+                                set {nodmg.%last spawned entity%} to true
+                                set {coolmob.%display name of last spawned entity%.%uuid of player%} to true
+
+on right click on player:
+        if name of clicked player is "&cProfessor Elm":
+                if {questa::%uuid of player%} is "&aBesuche &cProfessor iamflee_ &ains seinem Labor!":
+                        send "&cHello &6%player%" to player
+        if name of clicked player is "&bDad":
+                send "&bDad&7: &6Pass gut auf dich auf, &2%player%" to player
+        if name of clicked player is "&cSchwester":
+                send "&cSchwester&7: &6Wie kann ich dir behilflich sein, &2%player%&6?" to player
+
+command /pokedollar <text=helps> [<integer>]:
+        trigger:
+                if arg 1 is "helps":
+                        send "&7/pokedollar get <Anzahl> => Zahle Pokedollar aus!"
+                        send "&7/pokedollar add <Anzahl> => Zahle Pokedollar ein!"
+                if arg 1 is "get":
+                        if arg 2 is set:
+                                if {wallet.%uuid of player%} is greater than or equal to arg 2:
+                                        loop arg-2 times:
+                                                give player a gold nugget named "&6Poké&4dollar"
+                                        remove arg-2 from {wallet.%uuid of player%}
+                                        send "&aDu hast &f%arg-2% &6Poké&4dollar &aausgezahlt!"
+                                else:
+                                        send "&cDu hast nicht genügend Geld auf dem Konto!"
+                        else:
+                                send "&cDu hast keine Anzahl angegeben!"
+                if arg 1 is "add":
+                        if arg 2 is set:
+                                set {_cs} to 0
+                                set {_cs} to amount of gold nugget in player's inventory
+                                set {_cs} to "%{_cs}%" parsed as integer
+                                set {_int} to "%arg-2%" parsed as integer
+                                if {_int} is not greater than {_cs}:
+                                        loop arg-2 times:
+                                                remove a gold nugget named "&6Poké&4dollar" from player
+                                        add arg-2 to {wallet.%uuid of player%}
+                                        send "&aDu hast &f%arg-2% &6Poké&4dollar &aeingezahlt!"
+                                else:
+                                        send "&cDu hast nicht genügend Items im Inventar!"
+                        else:
+                                send "&cDu hast keine Anzahl angegeben!"
+
+
+
+command /viewbank:
+        permission: pkbank.view
+        trigger:
+                if {bankkonto.pokemob} is not set:
+                        set {bankkonto.pokemob} to 1000000000
+                send "&aAuf der &5demetrianischen &cPoke&6bank sind momentan &f%{bankkonto.pokemob}% &6Poké&4dollar."
+
+
+command /wertcheck:
+        trigger:
+                set {_cs} to amount of gold nugget in player's inventory
+                set {_cs} to "%{_cs}%" parsed as integer
+                set {_wcs} to "%{_cs} * 0.10%"
+                replace all " " in {_wcs} with ""
+                send "&aDeine &f%{_cs}% &6Poké&4dollar &awäre im echten Leben %{_wcs}%&6&l€ &awert!"
+
+command /justfun:
+        trigger:
+                give player a chain leggings named "&ciamflee_'s &fUnterhose" with lore "&6Wert: &f100&6€"
+
+on right click with pink wool:
+        if name of player's tool is "&dPig || &7Level &f1":
+                set {_lore} to "%lore of player's tool%"
+                set {_named} to "%name of player's tool%"
+                replace all " " and "  " in {_named} with ""
+                set {_spilt::*} to split {_named} at "||"
+                set {_named} to "%{_spilt::1}%"
+                set {_splitlore::*} to split {_lore} at ","
+                set {_bony1} to "%{_splitlore::3}%"
+                replace all "]" in {_bony1} with ""
+                if "%{_bony1}%" contains "Zurück?":
+                        if "%{owner.%targeted entity%}%" is "%uuid of player%":
+                                delete {nodmg.%targeted entity%}
+                                delete {catched.%targeted entity%}
+                                delete {coolmob.%display name of targeted entity%.%uuid of player%}
+                                delete {owner.%targeted entity%}
+                                send "&aZurück &dPig"
+                                remove a pink wool named "&dPig || &7Level &f1" with lore "&7Exp: &f%{exp.%{_named}%}%&7/&f%{expcap.%{_named}%}%||&7HP: &a%health of targeted entity%&7/&a%max health of targeted entity%||&aZurück?" from player
+                                wait a tick
+                                give player a pink wool named "&dPig || &7Level &f1" with lore "&7Exp: &f%{exp.%{_named}%}%&7/&f%{expcap.%{_named}%}%||&7HP: &a%health of targeted entity%&7/&a%max health of targeted entity%||&cFreilassen?"
+                                kill targeted entity
+
+on right click with white wool:
+        if name of player's tool is "&fChicken || &7Level &f1":
+                set {_lore} to "%lore of player's tool%"
+                set {_splitlore::*} to split {_lore} at ","
+                set {_bony1} to "%{_splitlore::2}%"
+                replace all "]" in {_bony1} with ""
+                if "%{_bony1}%" contains "Zurück?":
+                        if "%{owner.%targeted entity%}%" is "%uuid of player%":
+                                delete {nodmg.%targeted entity%}
+                                delete {catched.%targeted entity%}
+                                delete {coolmob.%display name of targeted entity%.%uuid of player%}
+                                delete {owner.%targeted entity%}
+                                kill targeted entity
+                                send "&aZurück &fChicken"
+                                remove a white wool named "&fChicken || &7Level &f1" with lore "&7HP: &a20&7/&a20||&aZurück?" from player
+                                wait a tick
+                                give player a white wool named "&fChicken || &7Level &f1" with lore "&7HP: &a20&7/&a20||&cFreilassen?"
+
+on right click with green wool:
+        if name of player's tool is "&2Zombie || &7Level &f1":
+                set {_lore} to "%lore of player's tool%"
+                set {_splitlore::*} to split {_lore} at ","
+                set {_bony1} to "%{_splitlore::2}%"
+                replace all "]" in {_bony1} with ""
+                if "%{_bony1}%" contains "Zurück?":
+                        if "%{owner.%targeted entity%}%" is "%uuid of player%":
+                                delete {nodmg.%targeted entity%}
+                                delete {catched.%targeted entity%}
+                                delete {coolmob.%display name of targeted entity%.%uuid of player%}
+                                delete {owner.%targeted entity%}
+                                kill targeted entity
+                                send "&aZurück &2Zombie"
+                                remove a green wool named "&2Zombie || &7Level &f1" with lore "&7HP: &a20&7/&a20||&aZurück?" from player
+                                wait a tick
+                                give player a green wool named "&2Zombie || &7Level &f1" with lore "&7HP: &a20&7/&a20||&cFreilassen?"
+
+
+
+command /pokemodify <text=mss> [<offline player>] [<number>]:
+        aliases: /bankadmin
+        permission: current.admin
+        trigger:
+                if arg 1 is "mss":
+                        send "&cAdminmenü &bvon &cPoke&fMobs"
+                        send "&7/pokemodify reset <player> <Betrag> &7=> &8Setze das Bankkonto eines Spielers auf 0."
+                        send "&7/pokemodify give <player> <Betrag> &7=> &8Füge Geld auf das Konto eines Spielers hinzu."
+                        send "&7/pokemodify withdraw <player> &7=> &8Nehme Geld von dem Konto eines Spielers weg."
+                        send "&7/pokemodify csee <player> &7=> &8Schaue dir den Kontostand eines Spielers an."
+                else if arg 1 is "reset":
+                        if arg 2 is not set:
+                                send "&8[&6&L$&8] &cKeinen Spielernamen angegeben!"
+                        else:
+                                add {wallet.%uuid of arg-2%} to {bankkonto.pokemob}
+                                set {wallet.%uuid of arg-2%} to 0
+                                send "&8[&6&L$&8] &aBankonto des Spielers &f%arg-2% &azurückgesetzt."
+                else if arg 1 is "give":
+                        if arg 2 is set:
+                                remove arg 3 from {bankkonto.pokemob}
+                                add arg 3 to {wallet.%uuid of arg-2%}
+                                send "&8[&6&L$&8] &f%arg-3% &6Pokedollar &aauf das Konto von &f%arg-2% &ahinzugefügt!"
+                                send "&8[&6&L$&8] Du hast &f%arg-3% &6Pokedollar &aerhalten!" to arg-2
+                        else:
+                                send "&8[&6&L$&8] &cKeinen Spielernamen angegeben!"
+                else if arg 1 is "csee":
+                        if arg 2 is not set:
+                                send "&8[&6&L$&8] &7Dein Konto => &f%{wallet.%uuid of player%}% &6Pokedollar"
+                        else:
+                                send "&8[&6&L$&8] &7Konto des Spielers &6%arg-2% &7=> &f%{wallet.%uuid of arg-2%}% &6Pokedollar"
+                else if arg 1 is "withdraw":
+                        if arg 2 is not set:
+                                send "&8[&6&L$&8] &cKeinen Spielernamen angegeben!"
+                        else:
+                                if arg 3 is more than {wallet.%uuid of arg-2%}:
+                                        send "&8[&6&L$&8] &cDer Spieler &6%arg-2% &chat nicht genügend Geld auf dem Bankkonto"
+                                else:
+                                        add arg 3 to {bankkonto.pokemob}
+                                        send "&8[&6&L$&8] &a&f%arg-3% &6Pokedollar &avon dem Bankkonto des Spielers &f%arg-2% &aabgezogen"
+                                        remove arg 3 from {wallet.%uuid of arg-2%}
+
+
+
+
+command /messageall <text=menu>:
+        aliases: /msgall
+        permission: use.msgall
+        permission message: &cNo
+        trigger:
+                if arg 1 is "menu":
+                        stop
+                if arg 1 is not "menu":
+                        broadcast "&2ALL &7|| &c%player% &f-> &6%arg-1%"
+
+command /nodmg:
+        trigger:
+                delete {nodmg.%targeted entity%}
+                delete {coolmob.&dPig || &7Level &f1.%uuid of player%}
+                send "dmg set"
+
+
+command /pgive <text=poken>:
+        trigger:
+                if arg 1 is "poken":
+                        send "pokeball,ultraball,key"
+                if arg 1 is "pokeball":
+                        give player 16 egg named "&cPoke&fball"
+                if arg 1 is "ultraball":
+                        give player 16 snowball named "&9Ultra&fball&fball"
+                if arg 1 is "pokeball":
+                        give player 16 tripwire hook named "&6Loot-Key"
+
+
+
+on spawn:
+        if event-entity is baby chicken:
+                kill event-entity
+
+command /pokesetup:
+        trigger:
+                give player custom skull of "http://textures.minecraft.net/texture/4423868e58c23a2d44c154d3bad3044dc815735136f3d2dde2cd4d8a9917" named "&7PC"
+                give player custom skull of "http://textures.minecraft.net/texture/47d977e2889a1f50bbb23d422275ab9daa3c150c89831e7984b49b409db067" named "&cHeiler"
+                give player 16 egg named "&cPoke&fball"
+                give player 16 snowball named "&9Ultra&fball"
+                give player custom skull of "http://textures.minecraft.net/texture/8b6a72138d69fbbd2fea3fa251cabd87152e4f1c97e5f986bf685571db3cc0" named "x"
+                give player custom skull of "http://textures.minecraft.net/texture/ed1e9979289f03099a7c587d52d488e26e7bb17ab594b69f92438d77eabc" named "tv"
+                give player custom skull of "http://textures.minecraft.net/texture/333dcfb4da10177264968b449e724adebee3bc33b72bae85842b4aab9bd9c4db" named "&7PC2"
+                give player custom skull of "http://textures.minecraft.net/texture/d5c6dc2bbf51c36cfc7714585a6a5683ef2b14d47d8ff714654a893f5da622" named "&6Loots"
+                give player 16 tripwire hook named "&6Loot-Key"
+
+on place:
+        if player's gamemode is creative:
+                if player's held item is custom skull of "http://textures.minecraft.net/texture/4423868e58c23a2d44c154d3bad3044dc815735136f3d2dde2cd4d8a9917" named "&7PC":
+                        if {true.%event-location%} is true:
+                                send " "
+                        else:
+                                add "%event-location%" to {listpc::*}
+                                set {true.%event-location%} to true
+                if player's held item is custom skull of "http://textures.minecraft.net/texture/47d977e2889a1f50bbb23d422275ab9daa3c150c89831e7984b49b409db067" named "&cHeiler":
+                        if {true.%event-location%} is true:
+                                send " "
+                        else:
+                                add "%event-location%" to {listhl::*}
+                                set {true.%event-location%} to true
+                if player's held item is custom skull of "http://textures.minecraft.net/texture/333dcfb4da10177264968b449e724adebee3bc33b72bae85842b4aab9bd9c4db" named "&7PC2":
+                        if {true.%event-location%} is true:
+                                send " "
+                        else:
+                                add "%event-location%" to {listpc2::*}
+                                set {true.%event-location%} to true
+                if player's held item is custom skull of "http://textures.minecraft.net/texture/d5c6dc2bbf51c36cfc7714585a6a5683ef2b14d47d8ff714654a893f5da622" named "&6Loots":
+                        if {true.%event-location%} is true:
+                                send " "
+                        else:
+                                add "%event-location%" to {listloots::*}
+                                set {true.%event-location%} to true
+
+
+
+
+on right click:
+        loop {listloots::*}:
+                if "%event-location%" is "%loop-value%":
+                        if player's tool is a tripwire hook:
+                                if {countdown.%uuid of player%.%loop-value%} is set:
+                                        send "&cDu musst noch &f%{countdown.%uuid of player%.%loop-value%}% &cMinuten warten bis du wieder diese Kiste öffnen kannst!"
+                                        cancel event
+                                        stop
+                                else:
+                                        set {_gift} to a random integer between 0 and 100
+                                        if {_gift} is between 0 and 1:
+                                                give player bottle o' enchanting named "&6Sonderbonbon"
+                                                send "&6%player% &aerhält &6Sonderbonbon"
+                                        if {_gift} is between 2 and 39:
+                                                give player 1 egg named "&cPoke&fball"
+                                                send "&6%player% &aerhält &cPoke&fball"
+                                        if {_gift} is between 40 and 54:
+                                                give player 1 snowball named "&9Ultra&fball"
+                                                send "&6%player% &aerhält &9Ultra&fball"
+                                        if {_gift} is between 55 and 85:
+                                                give player a leather leggings named "&cRote Hose"
+                                                send "&6%player% &aerhält &cRote Hose"
+                                        if {_gift} is between 86 and 95:
+                                                send "&6%player% &aerhält &4Heiltrank"
+                                        if {_gift} is between 96 and 100:
+                                                send "&6%player% &aerhält &f10 &6Pokedollar"
+                                        wait a tick
+                                        set {countdownw.%uuid of player%.%loop-value%} to true
+                                        set {countdown.%uuid of player%.%loop-value%} to 30
+                                        remove a tripwire hook named "&6Loot-Key" from player
+                        else:
+                                send "&cDu hast keinen Schlüssel für diese Kiste!"
+
+command /spawnmob:
+        trigger:
+                #spawn a zombie at player
+                #set display name of last spawned entity to "&aBisasam &7|| &7Level &f2"
+                #set chestplate of last spawned entity to leather chestplate
+                #dye last spawned entity's chestplate lime
+                #set leggings of last spawned entity to leather leggings
+                #dye last spawned entity's leggings lime
+                #set boots of last spawned entity to leather boots
+                #dye last spawned entity's boots lime
+                #set helmet of last spawned entity to custom skull of "http://textures.minecraft.net/texture/13e86a8a4231d1cee83714eb5e939c6d3078ea6832bf93eba66d12dc25ea95a"
+                #apply slowness 99 to last spawned entity for 99999 days
+                set {_now} to "%now%"
+                send "Now its %now%"
+                set {_date.time::*} to {_now} split at " "
+                set {_date::*} to {_date.time::1} split at "/"
+                set {_time::*} to {_date.time::2} split at ":"
+                set {timer.timed} to "%{_date.time::3}%"
+                if {timer.timed} is "PM":
+                        set {time.hour} to "%{time.hour}%" parsed as integer
+                        set {time.hour1} to "%{time.hour} + 12%"
+                send "Time GER: %{time.hour1}%:%{time.minute}%"
+                send "Date: %{date.month}%.%{date.day}%.%{date.year}%"
+                send "%{lastonline.%uuid of player%}%"
+
+
+on entity target:
+        entity is a zombie
+        if entity's target is a player:
+                cancel event
+
+
+every 1 minute:
+        loop players:
+                loop {listloots::*}:
+                        if {countdownw.%uuid of loop-player%.%loop-value-2%} is true:
+                                if {countdown.%uuid of loop-player%.%loop-value-2%} is more than 0:
+                                        subtract 1 from {countdown.%uuid of loop-player%.%loop-value-2%}
+                                else:
+                                        set {countdownw.%uuid of loop-player%.%loop-value-2%} to false
+                                        delete {countdown.%uuid of loop-player%.%loop-value-2%}
+
+on right click:
+        loop {listpc2::*}:
+                if "%event-location%" is "%loop-value%":
+                        send "&7Aktuelle Quest:"
+                        if {questa::%uuid of player%} is not set:
+                                send "&4Computer sagt nein!"
+                        else:
+                                send "%{questa::%uuid of player%}%"
+
+on break:
+        if event-block is custom skull of "http://textures.minecraft.net/texture/4423868e58c23a2d44c154d3bad3044dc815735136f3d2dde2cd4d8a9917":
+                remove "%event-location%" from {listpc::*}
+        if event-block is custom skull of "http://textures.minecraft.net/texture/47d977e2889a1f50bbb23d422275ab9daa3c150c89831e7984b49b409db067":
+                remove "%event-location%" from {listjl::*}
+        if event-block is custom skull of "http://textures.minecraft.net/texture/333dcfb4da10177264968b449e724adebee3bc33b72bae85842b4aab9bd9c4db":
+                remove "%event-location%" from {listpc2::*}
+
+
+command /hub:
+        aliases: /l, /lobby
+        trigger:
+                if player's world is "PokeMobs":
+                        set {lastloc.%uuid of player%} to location of player
+                        wait 1 second
+                        set {_count} to 0
+                        loop 36 times:
+                                set {inv.%uuid of player%.%{_count}%.pokeworld} to slot {_count} of player's inventory
+                                add 1 to {_count}
+                        set {inv.%uuid of player%.helmet.pokeworld} to player's helmet
+                        set {inv.%uuid of player%.chest.pokeworld} to player's chestplate
+                        set {inv.%uuid of player%.legs.pokeworld} to player's leggings
+                        set {inv.%uuid of player%.feet.pokeworld} to player's boots
+                set the player's food level to 10
+                heal player
+                clear player's inventory
+                teleport the player to {lobbyspawn.loc}
+                wait 1 second
+                set gamemode of player to adventure
+                wait a tick
+                if player's world is "hub":
+                        make player execute command "/slots"
+
+
+on quit:
+        if player's world is "PokeMobs":
+                make player execute command "/hub"
+
+on right click on sign:
+        if line 1 of clicked block is "&7[&8Join&7]":
+                if line 2 of clicked block is "&cPoké&2Mobs":
+                        teleport the player to {pokeloc.spawnpoke}
+                        clear player's inventory
+                        wait a ticks
+                        set {_count} to 0
+                        loop 36 times:
+                                set slot {_count} of player's inventory to {inv.%uuid of player%.%{_count}%.pokeworld}
+                                add 1 to {_count}
+                        set the helmet of player to {inv.%uuid of player%.helmet.pokeworld}
+                        set the chestplate of player to {inv.%uuid of player%.chest.pokeworld}
+                        set the leggings of player to {inv.%uuid of player%.legs.pokeworld}
+                        set the boots of player to {inv.%uuid of player%.feet.pokeworld}
+
+on region enter:
+        wait a tick
+        if "%region at player%" is "cherrygrove in world Pokemobs":
+                send player title "&aWillkommen in...." with subtitle "&dRosalia &7City" for 3 seconds
+        if "%region at player%" is "ecruteak in world Pokemobs":
+                send player title "&aWillkommen in..." with subtitle "&9Teak &7City" for 3 seconds
+        if "%region at player%" is "newbark in world PokeMobs":
+                send player title "&aWillkommen in..." with subtitle "&2Neuborkia" for 3 seconds
+        if "%region at player%" is "violet in world PokeMobs":
+                send player title "&aWillkommen in..." with subtitle "&5Viola &7City"
+        if "%region at player%" is "azalea in world PokeMobs":
+                send player title "&aWillkommen in..." with subtitle "&6Azalea &7City"
+        if "%region at player%" is "alph in world PokeMobs":
+                send player title "&aWillkommen in..." with subtitle "&aden &6Ruinen von Alph"
+        if "%region at player%" is "ebenholz in world PokeMobs":
+                send player title "&aWillkommen in..." with subtitle "&1Ebenholz &7City"
+        if "%region at player%" is "maha in world PokeMobs":
+                send player title "&aWillkommen in..." with subtitle "&bMahagonia &7City"
+        if "%region at player%" is "goldenrod in world PokeMobs":
+                send player title "&aWillkommen in..." with subtitle "&7Dukatia &7City"
+        if "%region at player%" is "cianwood in world PokeMobs":
+                send player title "&aWillkommen in..." with subtitle "&cAnemonia &7City"
+        if "%region at player%" is "safarie in world PokeMobs":
+                send player title "&aWillkommen in..." with subtitle "&ader &2Safari-Zone"
+        if "%region at player%" is "olivia in world PokeMobs":
+                send player title "&aWillkommen in..." with subtitle "&8Oliviana &7City"
+
+
+
+
+command /whereregion:
+        aliases: /whr
+        trigger:
+                send "<&0&m---------------------"
+                send "&cRegioncheck:"
+                set {_var1} to "%region at player%"
+                if "%{_var1}%" is not set:
+                        send "&4Keine Region an deiner Postition!"
+                else:
+                        send "&7Region: &f%region at player%"
+                        set {_split::*} to split {_var1} at " "
+                        send "&7City: &f%{_split::1}%"
+                        send "&aWorld: &f%{_split::4}%"
+                send "&0&m---------------------&f>"
+
+
+on right click:
+        loop {listpc::*}:
+                if "%event-location%" is "%loop-value%":
+                        send "&7pc"
+
+
+on right click:
+        loop {listhl::*}:
+                if "%event-location%" is "%loop-value%":
+                        send "&cheal"
+						
+command /endsearch:
+	usage: /endsearch
+	trigger:
+		delete {matchmaking::%player%}
+		set {_seconds} to 0
+		remove "%player%" from {matchmakings::*}
+		send "&2Matchsuche wird beendet..."
+		wait 5 seconds
+		set {_seconds} to 0
+		send "&2Matchsuche beendet!"
+
+			
+			
+command /findmatch:
+    usage: /findmatch
+    executable by: players
+    trigger:
+        set {matchmaking::%player%} to player
+        add "%player%" to {matchmakings::*}
+        if {matchmaking::%player%} is 0:
+            message "&cERROR!"
+        else:
+            set {_seconds} to 1
+            while {matchmaking::%player%} is set:
+                message "&aSuche ein geranktes Spiel... (Sucht seid: %{_seconds}% Sekunden.) Gebe zum Beenden der Matchsuche '/endsearch' ein."
+                add 5 to {_seconds}
+                wait 5 seconds
+
+
+    
+every 1 second:
+	delete {_cmatch}
+	loop {matchmakings::*}:
+		add 1 to {_cmatch}
+	if {_cmatch} is more than 1:	
+		set {_player1} to random element out of {matchmakings::*}
+		remove "%{_player1}%" from {matchmakings::*}  
+		set {_player2} to random element out of {matchmakings::*}
+		remove "%{_player2}%" from {matchmakings::*}  
+		delete {matchmaking::%{_player1}%}
+		delete {matchmaking::%{_player2}%}   
+		send "Your match is %{_player1}%" to {_player2}
+		send "Your match is %{_player2}%" to {_player1}  
+		teleport {_player1} to {pokeloc.match1}
+		teleport {_player2} to {pokeloc.match2}
+				
+
